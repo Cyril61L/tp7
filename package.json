@@ -8,11 +8,11 @@
     "server": "node bin/backend.js",
     "server_rest": "node bin/rest_temp.js",
     "curl": "curl -d '{\"username\":\"test\",\"password\":\"pass\"}' http://localhost:8000/login",
-    "client": "node bin/client2.js -l test -p pass -t 0",
+    "client": "node bin/client.js -l test -p pass -t 0",
     "rabbitmq_docker": "docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management",
     "routeur": "node bin/router.js",
     "redis_docker": "docker run -i --rm --name redis -p 6379:6379 redis",
-    "redis2": "node bin/redis2.js"
+    "redis2": "node bin/amqpToRedis.js"
   },
   "author": "",
   "license": "GPLv3",
