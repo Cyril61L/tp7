@@ -17,9 +17,9 @@ function run() {
 
     var amqp = require('amqplib/callback_api');
 
-    const IP = process.env.IP || "127.0.0.1";
-    const username = process.env.user || 'guest';
-    const password = process.env.password || 'guest';
+    const IP = process.env.IP
+    const username = process.env.user
+    const password = process.env.password
 
     const opt = { credentials: require('amqplib').credentials.plain(username, password) };
 

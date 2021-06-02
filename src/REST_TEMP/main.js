@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const redis = require("redis");
-const IP = process.env.REDISIP || "127.0.0.1";
-const password = process.env.REDISpassword || 'guest';
+const IP = process.env.REDISIP;
+const password = process.env.REDISpassword;
 
 const client = redis.createClient({host:IP,password:password});
 
@@ -13,21 +13,22 @@ const port = 8001;
 
 
 
-function runExpress()
+function run()
 {
     app.get('/temp/*', (req, res) => {
-        //console.log("GET 404", req.originalUrl);
 
+        // On récupére la ville dans l'URL
         var key = req.params[0].toLowerCase();
 
         client.on("error", function(error) {
             console.error("ERROR",error);
         });
-
+        // On recherche dans la BDD la valeur associé a la ville "key".
         client.get(key, (err,reply) => {
             console.log("Reply:",err,reply);
             console.log(JSON.stringify({temperature : reply}));
 
+            // On vérifie si la valeur retournée est correcte
             if(reply !== null){
                 res.writeHead(200, {'Content-Type': 'application/json'});
                 res.end(JSON.stringify({temperature : reply}));
@@ -42,11 +43,6 @@ function runExpress()
     app.listen(port, host, () => {
         console.log(`Server is running at http://${host}:${port}`);
     });
-}
-
-function run()
-{
-    runExpress();
 }
 
 exports.run = run;

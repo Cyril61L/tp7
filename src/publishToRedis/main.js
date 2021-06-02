@@ -3,8 +3,8 @@ const routingdb = require("../db/routingdb");
 const { ArgumentParser } = require('argparse');
 
 const redis = require("redis");
-const IP = process.env.REDISIP || "127.0.0.1";
-const password = process.env.REDISpassword || 'guest';
+const IP = process.env.REDISIP;
+const password = process.env.REDISpassword;
 
 const client = redis.createClient({host:IP,password:password});
 
@@ -30,9 +30,9 @@ function run() {
 
     var amqp = require('amqplib/callback_api');
 
-    const IP = process.env.IP || "127.0.0.1";
-    const username = process.env.user || 'guest';
-    const password = process.env.password || 'guest';
+    const IP = process.env.IP;
+    const username = process.env.user;
+    const password = process.env.password;
 
     const opt = { credentials: require('amqplib').credentials.plain(username, password) };
 

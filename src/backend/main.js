@@ -95,39 +95,6 @@ function postdata(data,res) {
 }
 
 
-var action_iter = 0;
-const action_array = [{type:"print",data:"Bonjour"},
-                      {type:"print",data:"tout"},
-                      {type:"print",data:"le"},
-                      {type:"print",data:"monde"},
-                      {type:"end"},
-                     ];
-
-function pull(data,res) {
-    console.log("Pull",data);
-    let validation = validate(data,schemas.pull_schema);
-    if (validation.valid) {
-        // Check JWT validity
-        jwt.verify(data.jwt, ACCESS_TOKEN_SECRET, function(err, decoded) {
-            if (err) { // There is an error: invalid jwt ...
-                res.writeHead(401, {'Content-Type': 'application/json'});
-                // Send back reply content
-                res.end(JSON.stringify({"error":-1,"message":"JWT error"}));
-            } else {
-                res.writeHead(201, {'Content-Type': 'application/json'});
-                // Serve back the action array at position action_iter
-                res.end(JSON.stringify({"error":0,
-                                        "message":action_array[action_iter++ % action_array.length]}));
-            }
-        });
-    } else {
-        res.writeHead(401, {'Content-Type': 'application/json'});
-        // Send back reply content
-        res.end(JSON.stringify({"error":-1,
-                                "message":"Invalid query: " + validation.errors.map(d => { return d.message + ";";})}));
-    }
-}
-
 /**
  *
  * Occur when an unkown url was called
@@ -141,9 +108,9 @@ function f404(data,res) {
 
 
 function run() {
-    const IP = process.env.IP || "127.0.0.1";
-    const username = process.env.user || 'guest';
-    const password = process.env.password || 'guest';
+    const IP = process.env.IP //|| "127.0.0.1";
+    const username = process.env.user //|| 'guest';
+    const password = process.env.password //|| 'guest';
     const opt = { credentials: require('amqplib').credentials.plain(username, password) };
 
     amqp.connect('amqp://'+IP, opt, function(error0, connection) {
